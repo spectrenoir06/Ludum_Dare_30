@@ -37,7 +37,7 @@ function Map:update(dt, x, y, lx, ly)
 	table.sort(visibleThings, sortByUpdateOrder)
 
 	for i=1, len do
-		print(visibleThings[i])
+		print(visibleThings[i].x)
 		visibleThings[i]:update(dt)
 	end
 

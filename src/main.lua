@@ -3,6 +3,7 @@ local gamera = require 'lib.gamera'
 local Map = require 'class.map'
 
 local camera, map
+local updateRadius = 100
 
 function love.load()
 
@@ -13,8 +14,12 @@ end
 
 
 function love.update(dt)
-	map:update(dt)
-	--camera:setPosition(map.bob:getCenter())
+	
+	local l,t,w,h = camera:getVisible()
+	l, t, w, h = l - updateRadius, t - updateRadius, w + updateRadius * 2, h + updateRadius * 2
+	map:update(dt, l, t, w, h)
+	camera:setPosition(map.bob:getCenter())
+
 	--camera:update(dt)
 end
 

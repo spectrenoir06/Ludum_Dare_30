@@ -20,6 +20,9 @@ end
 
 function Bob:update(dt)
   self:useInput(dt)
+  self.x = self.x + self.dx
+  if self.x > 6300 then self.x = 6300 end
+  self:move(self.x, self.y)
   --self:changeVelocityByGravity(dt)
 end
 
