@@ -21,7 +21,6 @@ end
 
 function Entity:getCenter()
   return self.x + self.lx / 2,
-  return self.x + self.lx / 2,
          self.y + self.ly / 2
 end
 

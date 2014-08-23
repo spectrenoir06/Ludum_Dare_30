@@ -21,14 +21,23 @@ function Map:initialize(lx, ly, camera)
 
 end
 
-function Map:update(dt, x, y,lx,ly)
+function Map:reset()
+
+  local width, height = self.lx, self.ly
+  self.world  = bump.newWorld()
+  self.bob = Bob:new(self, self.world, 60, 60)
+  
+end
+
+function Map:update(dt, x, y, lx, ly)
 	
-	x, y, lx, ly = x or 0, y or 0, lx or self.width, ly or self.height
+	x, y, lx, ly = x or 0, y or 0, lx or self.lx, ly or self.ly
 	local visibleThings, len = self.world:queryRect(x, y, lx, ly)
 
 	table.sort(visibleThings, sortByUpdateOrder)
 
 	for i=1, len do
+		print(visibleThings[i])
 		visibleThings[i]:update(dt)
 	end
 

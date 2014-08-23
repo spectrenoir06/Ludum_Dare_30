@@ -14,7 +14,13 @@ local height	= 64
 function Bob:initialize(map, world, x,y)
 	Entity.initialize(self, world, x, y, width, height)
 	self.health = 100
+	self.img = love.graphics.newImage( "textures/bob.png" )
 	self.map = map
+end
+
+function Bob:update(dt)
+  self:useInput(dt)
+  --self:changeVelocityByGravity(dt)
 end
 
 function Bob:useInput(dt)
@@ -29,9 +35,9 @@ function Bob:useInput(dt)
 	if love.keyboard.isDown("left") then
 		dx = dx - dt * (dx > 0 and brake or speed)
 	elseif love.keyboard.isDown("right") then
-		vx = vx + dt * (vx < 0 and brake or speed)
+		dx = dx + dt * (dx < 0 and brake or speed)
 	else
-		local braking = dt * (vx < 0 and brake or -brake)
+		local braking = dt * (dx < 0 and brake or -brake)
 		if math.abs(braking) > math.abs(dx) then
 			dx = 0
 		else
@@ -49,7 +55,7 @@ function Bob:useInput(dt)
 end
 
 function Bob:draw()
-	
+	love.graphics.draw( self.img, self.x, self.y)
 end
 
 return Bob
