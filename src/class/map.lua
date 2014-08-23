@@ -18,6 +18,8 @@ function Map:initialize(lx, ly, camera)
 	self.lx		= lx
 	self.ly		= ly
 	self.camera	= camera
+	self.tileset = love.graphics.newImage( "textures/sol.png" )
+	self.tileset:setWrap("repeat","repeat")
 	
 	self:reset()
 
@@ -26,28 +28,32 @@ function Map:initialize(lx, ly, camera)
 				0,	
 				self.lx,        
 				32, 
-				true
+				true,
+				self.tileset
 			)
 	Block:new(	self.world,	
 				0,	
 				32,	
 				32, 
 				self.ly-64, 
-				true
+				true,
+				self.tileset
 			)
 	Block:new(	self.world,
 				self.lx-32,
 				32,
 				32, 
 				self.ly-64, 
-				true
+				true,
+				self.tileset
 			)
 	Block:new(	self.world,
 				0,
 				self.ly-32,
 				self.ly, 
 				32, 
-				true
+				true,
+				self.tileset
 			)
 end
 
