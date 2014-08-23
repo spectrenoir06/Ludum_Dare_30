@@ -17,7 +17,7 @@ function Bob:initialize(map, world, x,y)
 	self.map = map
 end
 
-function Player:useInput(dt)
+function Bob:useInput(dt)
 
 	self.fly = false
 
@@ -46,6 +46,10 @@ function Player:useInput(dt)
 
 	self.dx = dx
 	self.dy = dy
+end
+
+function Bob:draw()
+	
 end
 
 return Bob
