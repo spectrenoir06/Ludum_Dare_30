@@ -1,13 +1,14 @@
 local class		= require 'lib.middleclass'
 local bump		= require 'lib.bump'
 local Bob		= require 'entities.bob'
+local Block		= require 'entities.block'
 
 local sortByUpdateOrder = function(a,b)
   return a:getUpdateOrder() < b:getUpdateOrder()
 end
 
 local sortByCreatedAt = function(a,b)
-  return a.getCreated_at() < b.getCreated_at()
+  return a:getCreated_at() < b:getCreated_at()
 end
 
 local Map = class('Map')
@@ -17,8 +18,13 @@ function Map:initialize(lx, ly, camera)
 	self.lx		= lx
 	self.ly		= ly
 	self.camera	= camera
+	
 	self:reset()
 
+	Block:new(self.world,        0,         0, self.lx,        32, true)
+	Block:new(self.world,        0,        32,    32, self.ly-64, true)
+	Block:new(self.world, self.lx-32,        32,    32, self.ly-64, true)
+	
 end
 
 function Map:reset()

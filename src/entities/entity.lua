@@ -32,4 +32,8 @@ function Entity:getCreated_at()
 	return self.created_at
 end
 
+function Entity:getUpdateOrder()
+  return self.class.updateOrder or 10000
+end
+
 return Entity
