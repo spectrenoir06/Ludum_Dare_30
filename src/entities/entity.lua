@@ -36,4 +36,23 @@ function Entity:getUpdateOrder()
   return self.class.updateOrder or 10000
 end
 
+function Entity:changeVelocityByGravity(dt)
+  self.dy = self.dy + G * dt
+end
+
+function Entity:changeVelocityByCollisionNormal(nx, ny, bounciness)
+  bounciness = bounciness or 0
+  local dx, dy = self.dx, self.dy
+
+  if (nx < 0 and dx > 0) or (nx > 0 and dx < 0) then
+    dx = -dx * bounciness
+  end
+
+  if (ny < 0 and dy > 0) or (ny > 0 and dy < 0) then
+    dy = -dy * bounciness
+  end
+
+  self.dx, self.dy = dx, dy
+end
+
 return Entity

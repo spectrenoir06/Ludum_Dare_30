@@ -8,8 +8,13 @@ Bob.static.updateOrder = 1
 local speed		= 500
 local brake		= 2000
 local jump		= 400
-local width		= 32
+local width		= 31
 local height	= 64
+
+local bobFilter = function(other)
+  local cname = other.class.name
+  return cname == 'Block'
+end
 
 function Bob:initialize(map, world, x,y)
 	Entity.initialize(self, world, x, y, width, height)
@@ -19,11 +24,50 @@ function Bob:initialize(map, world, x,y)
 end
 
 function Bob:update(dt)
-  self:useInput(dt)
-  self.x = self.x + self.dx
-  if self.x > 6300 then self.x = 6300 end
-  self:move(self.x, self.y)
-  --self:changeVelocityByGravity(dt)
+	self:useInput(dt)
+	self:changeVelocityByGravity(dt)
+	self:moveColliding(dt)
+	self:changeVelocityByBeingOnGround(dt)
+	print("dx",self.dx,"dy",self.dy)
+end
+
+function Bob:changeVelocityByBeingOnGround()
+	if self.onGround then
+		self.dy = math.min(self.dy, 0)
+	end
+end
+
+function Bob:moveColliding(dt)
+  self.onGround = false
+  local world = self.world
+
+  local new_x = self.x + self.dx * dt
+  local new_y = self.y + self.dy * dt
+
+  local cols, len = world:check(self, new_x, new_y, bobFilter)
+  if len == 0 then
+    self:move(new_x, new_y)
+  else
+    local col, tl, tt, nx, ny, sl, st
+    local visited = {}
+    while len > 0 do
+      col = cols[1]
+      tl,tt,nx,ny,sl,st = col:getSlide()
+
+      self:changeVelocityByCollisionNormal(nx, ny,0.4)
+      self:checkIfOnGround(ny)
+
+      self:move(tl,tt)
+
+      if visited[col.other] then return end
+      visited[col.other] = true
+
+      cols, len = world:check(self, sl, st, bobFilter)
+      if len == 0 then
+        self:move(sl, st)
+      end
+    end
+  end
 end
 
 function Bob:useInput(dt)
@@ -57,8 +101,16 @@ function Bob:useInput(dt)
 	self.dy = dy
 end
 
+function Bob:checkIfOnGround(ny)
+  if ny < 0 then self.onGround = true end
+end
+
 function Bob:draw()
 	love.graphics.draw( self.img, self.x, self.y)
+end
+
+function Bob:canFly()
+  return false
 end
 
 return Bob

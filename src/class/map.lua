@@ -21,10 +21,34 @@ function Map:initialize(lx, ly, camera)
 	
 	self:reset()
 
-	Block:new(self.world,        0,         0, self.lx,        32, true)
-	Block:new(self.world,        0,        32,    32, self.ly-64, true)
-	Block:new(self.world, self.lx-32,        32,    32, self.ly-64, true)
-	
+	Block:new(	self.world,
+				0,
+				0,	
+				self.lx,        
+				32, 
+				true
+			)
+	Block:new(	self.world,	
+				0,	
+				32,	
+				32, 
+				self.ly-64, 
+				true
+			)
+	Block:new(	self.world,
+				self.lx-32,
+				32,
+				32, 
+				self.ly-64, 
+				true
+			)
+	Block:new(	self.world,
+				0,
+				self.ly-32,
+				self.ly, 
+				32, 
+				true
+			)
 end
 
 function Map:reset()
