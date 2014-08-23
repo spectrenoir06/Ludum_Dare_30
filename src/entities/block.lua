@@ -22,19 +22,7 @@ function Block:update(dt)
 end
 
 function Block:destroy()
-  Entity.destroy(self)
-
-  local area = self.w * self.h
-  local debrisNumber = math.floor(math.max(30, area / 100))
-
-  for i=1, debrisNumber do
-    Debris:new(self.world,
-               math.random(self.l, self.l + self.w),
-               math.random(self.t, self.t + self.h),
-               220, 150, 150
-    )
-  end
-
+	Entity.destroy(self)
 end
 
 return Block

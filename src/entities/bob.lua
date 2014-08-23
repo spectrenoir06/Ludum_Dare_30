@@ -54,7 +54,7 @@ function Bob:moveColliding(dt)
       col = cols[1]
       tl,tt,nx,ny,sl,st = col:getSlide()
 
-      self:changeVelocityByCollisionNormal(nx, ny,0.4)
+      self:changeVelocityByCollisionNormal(nx, ny,0)
       self:checkIfOnGround(ny)
 
       self:move(tl,tt)
